@@ -1,0 +1,73 @@
+
+
+#                   Welcome to the algorithm testing platform
+#
+#
+#
+#
+#           The following code will test two text files for similarity
+#
+#                   Please input the algorithm output here
+algorithmOutput = 'test1.txt'
+#
+#
+#                   Please input the expected results file here
+expectedOutput = 'test2.txt'
+#
+#
+#
+#
+#                   The results from the test will be placed here
+resultsDoc = 'Results.txt'
+
+
+#opens each text file and stores the text on each line in an array
+#list2 should be the expected output
+list2 = [line.strip() for line in open(expectedOutput)]
+list1 = [line.strip() for line in open(algorithmOutput)]
+#default the array length to length of list 2
+testScriptLen = len(list2)
+
+#check to see if text files are the same size
+if len(list1)!=len(list2):
+    difference = abs(len(list2)-len(list1))
+    for x in range(0,difference,1):
+        if len(list2)>len(list1):
+            testScriptLen = len(list2)
+            list1.append(0)
+        if len(list2)<len(list1):
+            testScriptLen = len(list1)
+            list2.append(0)
+            
+        
+#####testing settings#####
+#choose line to start testing 0 = line 1, 1 = line 2....
+beginningLine = 2
+passNum = 0
+failNum = 0
+
+
+
+#open output text file Results.text
+resultsFile = open(resultsDoc,"w")
+#set the max bound to the length of the test
+for x in range(beginningLine,testScriptLen,1):   
+    if list1[x] == list2[x]:
+        resultsFile.write("Same line:" + str(x) + '\n')
+        passNum += 1
+        print("Same line:",x)
+    else:
+        resultsFile.write("Difference on line:" + str(x) + '\n')
+        print("Difference on line:",x)
+        failNum += 1
+
+#create string with test results
+testResults = str(int((float(passNum)/float((testScriptLen-beginningLine)))*100))        
+#create a string with the test result
+testCaseNumber = ("Test Case" + str(1) + " Score: " + testResults)
+
+#write the results string to a text file called Results.text
+resultsFile.write(testCaseNumber + '\n')
+resultsFile.close()
+print("Write to file successful")
+print(testResults)
